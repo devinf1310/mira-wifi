@@ -234,10 +234,10 @@
 
             <div id="android-section">
                 <button class="connect-btn" onclick="connectWifi()">
-                    📶 Se connecter automatiquement
+                    📶 Se connecter au WiFi
                 </button>
-                <p class="os-note">
-                    Fonctionne sur Android. Sur iPhone, scannez le QR code ci-dessus.
+                <p class="os-note" id="connect-note">
+                    Copie la clé et ouvre les paramètres WiFi automatiquement.
                 </p>
             </div>
         </div>
@@ -307,11 +307,8 @@
             
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
             if (isIOS) {
-                document.getElementById('android-section').innerHTML = `
-                    <p class="os-note" style="padding: 12px 0;">
-                        📱 iPhone détecté — Scannez le QR code ci-dessus avec votre appareil photo pour vous connecter.
-                    </p>
-                `;
+                document.getElementById('connect-note').textContent = 
+                    'Sur iPhone, scannez le QR code ci-dessus avec l\'appareil photo.';
             }
         }
 
@@ -333,12 +330,33 @@
         }
 
         function connectWifi() {
-            const wifiUri = `intent://wifi/connect?ssid=${encodeURIComponent(wifiSSID)}&password=${encodeURIComponent(wifiKey)}&security=WPA#Intent;scheme=wifi;end;`;
             const btn = document.querySelector('.connect-btn');
+            const wifiString = `WIFI:T:WPA;S:${wifiSSID};P:${wifiKey};;`;
             
-            window.location.href = wifiUri;
+            // Detecter le type d'appareil
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
             
-            setTimeout(() => {
+            if (isAndroid) {
+                // Android : copier la cle, puis ouvrir les parametres WiFi
+                navigator.clipboard.writeText(wifiKey).catch(() => {});
+                
+                btn.innerHTML = '⏳ Ouverture des paramètres WiFi...';
+                
+                // Essayer d'ouvrir les parametres WiFi Android
+                // intent:// pour ouvrir directement la page WiFi des parametres
+                window.location.href = 'intent://#Intent;action=android.settings.WIFI_SETTINGS;end;';
+                
+                setTimeout(() => {
+                    btn.innerHTML = '✅ Clé WiFi copiée — Collez-la dans les paramètres';
+                    btn.classList.add('success');
+                    setTimeout(() => {
+                        btn.innerHTML = '📶 Se connecter automatiquement';
+                        btn.classList.remove('success');
+                    }, 5000);
+                }, 1500);
+            } else {
+                // iOS et autres : copier la cle
                 navigator.clipboard.writeText(wifiKey).then(() => {
                     btn.innerHTML = '✅ Clé WiFi copiée !';
                     btn.classList.add('success');
@@ -347,7 +365,7 @@
                         btn.classList.remove('success');
                     }, 3000);
                 });
-            }, 2000);
+            }
         }
 
         loadWifiCredentials();
