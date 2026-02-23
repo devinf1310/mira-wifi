@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mira - Connexion WiFi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #F5F5F5;
+            min-height: 100vh;
+            color: #1A1A1A;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .top-bar {
+            width: 100%;
+            background: #E4032E;
+            padding: 16px 20px;
+            text-align: center;
+        }
+
+        .top-bar .brand {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 420px;
+            width: 100%;
+            padding: 20px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            padding: 24px 0 20px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .wifi-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .wifi-row:last-child { border-bottom: none; }
+
+        .wifi-label {
+            font-size: 13px;
+            color: #888;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .wifi-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1A1A1A;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn {
+            background: #F5F5F5;
+            border: 1px solid #E0E0E0;
+            color: #555;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: inherit;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:active { transform: scale(0.95); }
+        .copy-btn.copied { background: #E8F5E9; color: #2E7D32; border-color: #A5D6A7; }
+
+        .qr-section {
+            text-align: center;
+            padding: 8px 0;
+        }
+
+        .qr-section p {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 16px;
+        }
+
+        #qr-code {
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px;
+            display: inline-block;
+            border: 1px solid #F0F0F0;
+        }
+
+        #qr-code svg { display: block; }
+
+        .connect-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #E4032E;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+
+        .connect-btn:active { transform: scale(0.98); opacity: 0.9; }
+
+        .connect-btn.success { background: #2E7D32; }
+
+        .os-note {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            line-height: 1.5;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #F0F0F0;
+            border-top-color: #E4032E;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading p { color: #888; font-size: 14px; }
+
+        .error-msg {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 12px;
+            color: #BBB;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <span class="brand">free</span>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>📶 Connexion WiFi</h1>
+            <p>Envoyé par Mira, votre assistante Free</p>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Chargement de vos identifiants WiFi...</p>
+        </div>
+
+        <div id="main-content" class="hidden">
+            <div class="card">
+                <div class="wifi-row">
+                    <span class="wifi-label">Réseau</span>
+                    <span class="wifi-value" id="ssid-display">-</span>
+                </div>
+                <div class="wifi-row">
+                    <span class="wifi-label">Clé WiFi</span>
+                    <span class="wifi-value">
+                        <span id="key-display">-</span>
+                        <button class="copy-btn" onclick="copyKey()">Copier</button>
+                    </span>
+                </div>
+            </div>
+
+            <div class="card qr-section">
+                <p>Scannez le QR code avec votre appareil photo</p>
+                <div id="qr-code"></div>
+            </div>
+
+            <div id="android-section">
+                <button class="connect-btn" onclick="connectWifi()">
+                    📶 Se connecter automatiquement
+                </button>
+                <p class="os-note">
+                    Fonctionne sur Android. Sur iPhone, scannez le QR code ci-dessus.
+                </p>
+            </div>
+        </div>
+
+        <div id="error" class="hidden error-msg">
+            <p>😕 Impossible de charger les identifiants WiFi.</p>
+            <p style="margin-top:8px">Veuillez rappeler Mira au 09 72 23 09 35</p>
+        </div>
+
+        <div class="footer">
+            Mira — Assistant virtuel Free
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAvQlwGOv6dxN9Z3eLkAZfXnzqkslj5UlE",
+            authDomain: "assistant-support-ia.firebaseapp.com",
+            databaseURL: "https://assistant-support-ia-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "assistant-support-ia",
+            storageBucket: "assistant-support-ia.firebasestorage.app",
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let wifiSSID = '';
+        let wifiKey = '';
+
+        async function loadWifiCredentials() {
+            try {
+                const snapshot = await db.ref('mira_wifi/demo').get();
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    wifiSSID = data.ssid || '';
+                    wifiKey = data.key || '';
+                    if (wifiSSID && wifiKey) {
+                        showCredentials();
+                    } else {
+                        showError();
+                    }
+                } else {
+                    showError();
+                }
+            } catch (e) {
+                console.error('Erreur Firebase:', e);
+                showError();
+            }
+        }
+
+        function showCredentials() {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            
+            document.getElementById('ssid-display').textContent = wifiSSID;
+            document.getElementById('key-display').textContent = wifiKey;
+            
+            const wifiString = `WIFI:T:WPA;S:${wifiSSID};P:${wifiKey};;`;
+            const qr = qrcode(0, 'M');
+            qr.addData(wifiString);
+            qr.make();
+            document.getElementById('qr-code').innerHTML = qr.createSvgTag(6, 0);
+            
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            if (isIOS) {
+                document.getElementById('android-section').innerHTML = `
+                    <p class="os-note" style="padding: 12px 0;">
+                        📱 iPhone détecté — Scannez le QR code ci-dessus avec votre appareil photo pour vous connecter.
+                    </p>
+                `;
+            }
+        }
+
+        function showError() {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('error').classList.remove('hidden');
+        }
+
+        function copyKey() {
+            navigator.clipboard.writeText(wifiKey).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'Copié ✓';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copier';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function connectWifi() {
+            const wifiUri = `intent://wifi/connect?ssid=${encodeURIComponent(wifiSSID)}&password=${encodeURIComponent(wifiKey)}&security=WPA#Intent;scheme=wifi;end;`;
+            const btn = document.querySelector('.connect-btn');
+            
+            window.location.href = wifiUri;
+            
+            setTimeout(() => {
+                navigator.clipboard.writeText(wifiKey).then(() => {
+                    btn.innerHTML = '✅ Clé WiFi copiée !';
+                    btn.classList.add('success');
+                    setTimeout(() => {
+                        btn.innerHTML = '📶 Se connecter automatiquement';
+                        btn.classList.remove('success');
+                    }, 3000);
+                });
+            }, 2000);
+        }
+
+        loadWifiCredentials();
+    </script>
+</body>
+</html>
