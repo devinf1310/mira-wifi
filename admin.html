@@ -8,304 +8,60 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: #F5F5F5;
-            min-height: 100vh;
-            color: #1A1A1A;
-        }
-
-        /* ── TOP BAR ── */
-        .top-bar {
-            width: 100%;
-            background: #1A1A1A;
-            padding: 14px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: #F5F5F5; min-height: 100vh; color: #1A1A1A; }
+        .top-bar { width: 100%; background: #1A1A1A; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
         .top-bar .brand { color: #E4032E; font-size: 20px; font-weight: 700; letter-spacing: 1px; }
         .top-bar .admin-badge { color: #888; font-size: 13px; font-weight: 500; margin-left: 8px; }
-        .logout-btn {
-            background: none; border: 1px solid #444; color: #888;
-            padding: 6px 14px; border-radius: 6px; font-size: 12px;
-            font-family: inherit; cursor: pointer; transition: all 0.2s;
-        }
+        .logout-btn { background: none; border: 1px solid #444; color: #888; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-family: inherit; cursor: pointer; transition: all 0.2s; }
         .logout-btn:hover { border-color: #E4032E; color: #E4032E; }
-
-        /* ── LOGIN SCREEN ── */
-        #login-screen {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: calc(100vh - 50px);
-        }
-        .login-box {
-            background: #fff;
-            border-radius: 16px;
-            padding: 40px 32px;
-            width: 100%;
-            max-width: 380px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-        }
-        .login-box h2 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #1A1A1A;
-        }
+        #login-screen { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 50px); }
+        .login-box { background: #fff; border-radius: 16px; padding: 40px 32px; width: 100%; max-width: 380px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+        .login-box h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
         .login-box p { font-size: 13px; color: #888; margin-bottom: 28px; }
-
         .login-field { margin-bottom: 16px; }
-        .login-field label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            margin-bottom: 6px;
-        }
-        .login-field input {
-            width: 100%;
-            padding: 13px 14px;
-            background: #F9F9F9;
-            border: 1px solid #E0E0E0;
-            border-radius: 8px;
-            font-size: 15px;
-            font-family: inherit;
-            outline: none;
-            transition: border-color 0.2s;
-        }
+        .login-field label { display: block; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+        .login-field input { width: 100%; padding: 13px 14px; background: #F9F9F9; border: 1px solid #E0E0E0; border-radius: 8px; font-size: 15px; font-family: inherit; outline: none; transition: border-color 0.2s; }
         .login-field input:focus { border-color: #E4032E; background: #fff; }
-
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            background: #E4032E;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            margin-top: 8px;
-            transition: opacity 0.2s;
-        }
+        .login-btn { width: 100%; padding: 14px; background: #E4032E; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 8px; transition: opacity 0.2s; }
         .login-btn:hover { opacity: 0.9; }
-        .login-error {
-            text-align: center;
-            color: #E4032E;
-            font-size: 13px;
-            margin-top: 12px;
-            min-height: 18px;
-        }
-
-        /* ── MAIN CONTENT ── */
-        #main-screen { display: none; padding: 28px 24px; max-width: 1200px; margin: 0 auto; }
-
-        .page-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 28px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
+        .login-error { text-align: center; color: #E4032E; font-size: 13px; margin-top: 12px; min-height: 18px; }
+        #main-screen { display: none; padding: 28px 24px; max-width: 1300px; margin: 0 auto; }
+        .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
         .page-header h1 { font-size: 22px; font-weight: 700; }
         .page-header p { font-size: 13px; color: #888; margin-top: 2px; }
-
-
-
-        
-
-        /* ── TABLE SECTION ── */
-        .table-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+        .table-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
         .table-header h2 { font-size: 16px; font-weight: 700; }
         .table-header p { font-size: 12px; color: #888; margin-top: 2px; }
-
-        .add-row-btn {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            padding: 10px 18px;
-            background: #1A1A1A;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
+        .add-row-btn { display: flex; align-items: center; gap: 7px; padding: 10px 18px; background: #1A1A1A; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; transition: opacity 0.2s; }
         .add-row-btn:hover { opacity: 0.85; }
-
-        .table-wrap {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            overflow: hidden;
-        }
-
-        .abonnes-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-
-        .abonnes-table thead th {
-            background: #F5F5F5;
-            padding: 11px 12px;
-            text-align: left;
-            font-size: 11px;
-            font-weight: 700;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            border-bottom: 1px solid #EAEAEA;
-            white-space: nowrap;
-        }
-
+        .table-wrap { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: auto; }
+        .abonnes-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .abonnes-table thead th { background: #F5F5F5; padding: 11px 12px; text-align: left; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid #EAEAEA; white-space: nowrap; }
         .abonnes-table thead th:first-child { width: 36px; padding: 11px 8px 11px 14px; }
-
-        .abonnes-table tbody tr {
-            border-bottom: 1px solid #F0F0F0;
-            transition: background 0.15s;
-        }
+        .abonnes-table tbody tr { border-bottom: 1px solid #F0F0F0; transition: background 0.15s; }
         .abonnes-table tbody tr:last-child { border-bottom: none; }
         .abonnes-table tbody tr:hover { background: #FAFAFA; }
         .abonnes-table tbody tr.new-row { background: #FFF8E1; }
-        .abonnes-table tbody tr.saving { opacity: 0.5; pointer-events: none; }
-
-        .abonnes-table td {
-            padding: 8px 12px;
-            vertical-align: middle;
-        }
+        .abonnes-table td { padding: 8px 12px; vertical-align: middle; }
         .abonnes-table td:first-child { padding: 8px 8px 8px 14px; }
-
-        /* Cellules éditables */
-        .cell-edit {
-            width: 100%;
-            padding: 7px 9px;
-            background: transparent;
-            border: 1px solid transparent;
-            border-radius: 6px;
-            font-size: 13px;
-            font-family: inherit;
-            color: #1A1A1A;
-            transition: all 0.15s;
-            min-width: 80px;
-        }
-        .cell-edit:focus {
-            outline: none;
-            background: #fff;
-            border-color: #E4032E;
-            box-shadow: 0 0 0 3px rgba(228,3,46,0.08);
-        }
+        .cell-edit { width: 100%; padding: 7px 9px; background: transparent; border: 1px solid transparent; border-radius: 6px; font-size: 13px; font-family: inherit; color: #1A1A1A; transition: all 0.15s; min-width: 80px; }
+        .cell-edit:focus { outline: none; background: #fff; border-color: #E4032E; box-shadow: 0 0 0 3px rgba(228,3,46,0.08); }
         .cell-edit.modified { border-color: #FB8C00; background: #FFF3E0; }
         .cell-edit::placeholder { color: #CCC; }
-
-        /* Numéro — colonne spéciale */
-        .num-display {
-            font-family: monospace;
-            font-size: 12px;
-            color: #555;
-        }
-
-        /* Bouton supprimer */
-        .del-btn {
-            background: none;
-            border: none;
-            color: #CCC;
-            font-size: 16px;
-            cursor: pointer;
-            padding: 4px 6px;
-            border-radius: 4px;
-            line-height: 1;
-            transition: all 0.15s;
-        }
+        .num-display { font-family: monospace; font-size: 12px; color: #555; }
+        .del-btn { background: none; border: none; color: #CCC; font-size: 16px; cursor: pointer; padding: 4px 6px; border-radius: 4px; line-height: 1; transition: all 0.15s; }
         .del-btn:hover { color: #E4032E; background: #FFF0F0; }
-
-        /* Bouton sauvegarder ligne */
-        .save-row-btn {
-            background: none;
-            border: 1px solid #E0E0E0;
-            color: #888;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.15s;
-            white-space: nowrap;
-        }
+        .save-row-btn { background: none; border: 1px solid #E0E0E0; color: #888; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 5px; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; }
         .save-row-btn:hover { border-color: #2E7D32; color: #2E7D32; }
         .save-row-btn.saved { border-color: #2E7D32; color: #2E7D32; background: #F1F8F1; }
-
-        /* Badge dernière modif */
-        .last-update {
-            font-size: 11px;
-            color: #BBB;
-            margin-top: 10px;
-            text-align: right;
-        }
-
-        /* Ligne vide */
-        .empty-row td {
-            text-align: center;
-            color: #BBB;
-            font-size: 13px;
-            padding: 32px;
-        }
-
-        /* Spinner */
-        .spinner {
-            width: 20px; height: 20px;
-            border: 2px solid #E0E0E0;
-            border-top-color: #E4032E;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            margin: 24px auto;
-        }
+        .last-update { font-size: 11px; color: #BBB; margin-top: 10px; text-align: right; }
+        .empty-row td { text-align: center; color: #BBB; font-size: 13px; padding: 32px; }
+        .spinner { width: 20px; height: 20px; border: 2px solid #E0E0E0; border-top-color: #E4032E; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 24px auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Toast */
-        #toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: #1A1A1A;
-            color: #fff;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            opacity: 0;
-            transform: translateY(8px);
-            transition: all 0.25s;
-            pointer-events: none;
-            z-index: 999;
-        }
+        #toast { position: fixed; bottom: 24px; right: 24px; background: #1A1A1A; color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; opacity: 0; transform: translateY(8px); transition: all 0.25s; pointer-events: none; z-index: 999; }
         #toast.show { opacity: 1; transform: translateY(0); }
         #toast.ok { background: #2E7D32; }
         #toast.err { background: #E4032E; }
-
-        @media (max-width: 700px) {
-            #main-screen { padding: 16px 12px; }
-            .abonnes-table { font-size: 11px; }
-            .cell-edit { min-width: 60px; font-size: 11px; }
-        }
     </style>
 </head>
 <body>
@@ -315,10 +71,9 @@
         <span class="brand">free</span>
         <span class="admin-badge">— Admin</span>
     </div>
-    <button class="logout-btn" id="logout-btn" onclick="logout()" style="display:none">Déconnexion</button>
+    <button class="logout-btn" id="logout-btn" style="display:none" onclick="logout()">Déconnexion</button>
 </div>
 
-<!-- ══════════════════════════════════ LOGIN ══════════════════════════════════ -->
 <div id="login-screen">
     <div class="login-box">
         <h2>🔒 Accès admin</h2>
@@ -329,311 +84,273 @@
         </div>
         <div class="login-field">
             <label>Mot de passe</label>
-            <input type="password" id="login-pw" placeholder="••••••••" autocomplete="current-password"
-                   onkeydown="if(event.key==='Enter') doLogin()">
+            <input type="password" id="login-pw" placeholder="••••••••" autocomplete="current-password">
         </div>
         <button class="login-btn" onclick="doLogin()">Se connecter</button>
         <div class="login-error" id="login-error"></div>
     </div>
 </div>
 
-<!-- ══════════════════════════════════ MAIN ══════════════════════════════════ -->
 <div id="main-screen">
     <div class="page-header">
         <div>
             <h1>Configuration Mira</h1>
-            <p>Gérez les abonnés testeurs et la configuration WiFi de démonstration</p>
+            <p>Gérez les abonnés testeurs Mira Voice</p>
         </div>
     </div>
-
-    <!-- ── TAB : ABONNÉS ── -->
-    <div id="tab-abonnes" class="tab-content active">
-        <div class="table-header">
-            <div>
-                <h2>Abonnés Mira Voice</h2>
-                <p>Chaque ligne correspond à un abonné pouvant tester Mira Voice. Cliquez sur une cellule pour la modifier.</p>
-            </div>
-            <button class="add-row-btn" onclick="addRow()">＋ Nouvel abonné</button>
+    <div class="table-header">
+        <div>
+            <h2>Abonnés Mira Voice</h2>
+            <p>Cliquez sur une cellule pour la modifier — sauvegarde automatique à la sortie du champ.</p>
         </div>
-
-        <div class="table-wrap">
-            <div id="table-loading" class="spinner"></div>
-            <table class="abonnes-table" id="abonnes-table" style="display:none">
-                <thead>
-                    <tr>
-                        <th></th><!-- delete -->
-                        <th>Numéro</th>
-                        <th>Nom</th>
-                        <th>N° Dossier</th>
-                        <th>ID Hotline</th>
-                        <th>Code Hotline</th>
-                        <th>SSID WiFi</th>
-                        <th>Clé WiFi</th>
-                        <th></th><!-- save -->
-                    </tr>
-                </thead>
-                <tbody id="abonnes-body"></tbody>
-            </table>
-        </div>
-        <div id="last-update" class="last-update"></div>
+        <button class="add-row-btn" onclick="addRow()">＋ Nouvel abonné</button>
     </div>
-
+    <div class="table-wrap">
+        <div id="table-loading" class="spinner"></div>
+        <table class="abonnes-table" id="abonnes-table" style="display:none">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Numéro</th>
+                    <th>Nom</th>
+                    <th>N° Dossier</th>
+                    <th>ID Hotline</th>
+                    <th>Code Hotline</th>
+                    <th>SSID WiFi</th>
+                    <th>Clé WiFi</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="abonnes-body"></tbody>
+        </table>
+    </div>
+    <div id="last-update" class="last-update"></div>
 </div>
 
-<!-- ── TOAST ── -->
 <div id="toast"></div>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script>
-window.addEventListener('load', function() {
 
-    // ══════════════════════════════════════════════════
-    // CONFIG
-    // ══════════════════════════════════════════════════
-    const ADMIN_CREDENTIALS = {
-        // Modifiez ici pour changer les identifiants admin
-        "admin": "mira2025",
-        "free":  "mira@free"
-    };
+// ═══════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════
+var ADMIN_CREDENTIALS = { "admin": "mira2025", "free": "mira@free" };
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyAvQlwGOv6dxN9Z3eLkAZfXnzqkslj5UlE",
-        authDomain: "assistant-support-ia.firebaseapp.com",
-        databaseURL: "https://assistant-support-ia-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "assistant-support-ia",
-        storageBucket: "assistant-support-ia.firebasestorage.app",
-    };
+var firebaseConfig = {
+    apiKey: "AIzaSyAvQlwGOv6dxN9Z3eLkAZfXnzqkslj5UlE",
+    authDomain: "assistant-support-ia.firebaseapp.com",
+    databaseURL: "https://assistant-support-ia-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "assistant-support-ia",
+    storageBucket: "assistant-support-ia.firebasestorage.app"
+};
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+firebase.initializeApp(firebaseConfig);
+var db = firebase.database();
 
-    // ══════════════════════════════════════════════════
-    // AUTH
-    // ══════════════════════════════════════════════════
-    function doLogin() {
-        const id = document.getElementById('login-id').value.trim();
-        const pw = document.getElementById('login-pw').value;
-        const err = document.getElementById('login-error');
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+var abonnesData = {};
+var editingRows = {};
 
-        if (ADMIN_CREDENTIALS[id] && ADMIN_CREDENTIALS[id] === pw) {
-            sessionStorage.setItem('mira_admin', '1');
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main-screen').style.display = 'block';
-            document.getElementById('logout-btn').style.display = 'block';
-            initApp();
-        } else {
-            err.textContent = '❌ Identifiant ou mot de passe incorrect';
-            document.getElementById('login-pw').value = '';
-            document.getElementById('login-pw').focus();
-        }
-    }
-
-    function logout() {
-        sessionStorage.removeItem('mira_admin');
-        document.getElementById('login-screen').style.display = 'flex';
-        document.getElementById('main-screen').style.display = 'none';
-        document.getElementById('logout-btn').style.display = 'none';
-        document.getElementById('login-id').value = '';
-        document.getElementById('login-pw').value = '';
-    }
-
-    // Check session
-    if (sessionStorage.getItem('mira_admin')) {
+// ═══════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════
+function doLogin() {
+    var id = document.getElementById('login-id').value.trim();
+    var pw = document.getElementById('login-pw').value;
+    var err = document.getElementById('login-error');
+    if (ADMIN_CREDENTIALS[id] && ADMIN_CREDENTIALS[id] === pw) {
+        sessionStorage.setItem('mira_admin', '1');
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('main-screen').style.display = 'block';
         document.getElementById('logout-btn').style.display = 'block';
         initApp();
+    } else {
+        err.textContent = '❌ Identifiant ou mot de passe incorrect';
+        document.getElementById('login-pw').value = '';
+        document.getElementById('login-pw').focus();
     }
+}
 
-    // ══════════════════════════════════════════════════
+function logout() {
+    sessionStorage.removeItem('mira_admin');
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('main-screen').style.display = 'none';
+    document.getElementById('logout-btn').style.display = 'none';
+    document.getElementById('login-id').value = '';
+    document.getElementById('login-pw').value = '';
+}
 
+document.getElementById('login-pw').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doLogin();
+});
 
-    // ══════════════════════════════════════════════════
-    // INIT
-    // ══════════════════════════════════════════════════
-    function initApp() {
-        listenAbonnes();
+if (sessionStorage.getItem('mira_admin')) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-screen').style.display = 'block';
+    document.getElementById('logout-btn').style.display = 'block';
+    initApp();
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+function initApp() {
+    listenAbonnes();
+}
+
+// ═══════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════
+var toastTimer;
+function toast(msg, type) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'show ' + (type || '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { t.className = ''; }, 2500);
+}
+
+// ═══════════════════════════════════════════════
+// NUMÉRO
+// ═══════════════════════════════════════════════
+function normaliserNumero(num) {
+    num = num.trim().replace(/[\s.\-()]/g, '');
+    if (num.startsWith('+33')) return '0033' + num.slice(3);
+    if (num.startsWith('0') && !num.startsWith('00')) return '0033' + num.slice(1);
+    return num;
+}
+
+function afficherNumero(key) {
+    if (key.startsWith('0033')) {
+        var local = '0' + key.slice(4);
+        return local.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
     }
+    return key;
+}
 
-    // ══════════════════════════════════════════════════
-    // TOAST
-    // ══════════════════════════════════════════════════
-    let toastTimer;
-    function toast(msg, type = '') {
-        const t = document.getElementById('toast');
-        t.textContent = msg;
-        t.className = 'show ' + type;
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => t.className = '', 2500);
-    }
+// ═══════════════════════════════════════════════
+// TABLEAU — fonctions globales (appelées depuis HTML dynamique)
+// ═══════════════════════════════════════════════
+function markModified(input, key) {
+    input.classList.add('modified');
+    var btn = document.getElementById('savebtn-' + key);
+    if (btn) btn.style.display = 'inline-block';
+    editingRows[key] = true;
+}
 
-    // ══════════════════════════════════════════════════
-    // NORMALISATION NUMÉRO
-    // ══════════════════════════════════════════════════
-    function normaliserNumero(num) {
-        num = num.trim().replace(/[\s.\-()]/g, '');
-        if (num.startsWith('+33')) return '0033' + num.slice(3);
-        if (num.startsWith('0') && !num.startsWith('00')) return '0033' + num.slice(1);
-        return num;
-    }
-
-    function afficherNumero(key) {
-        // 0033XXXXXXXXX → 0X XX XX XX XX
-        if (key.startsWith('0033')) {
-            const local = '0' + key.slice(4);
-            return local.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
-        }
-        return key;
-    }
-
-    // ══════════════════════════════════════════════════
-    // ABONNÉS — écoute temps réel
-    // ══════════════════════════════════════════════════
-    let abonnesData = {};   // cache local { key: {...} }
-    let editingRows = new Set();  // clés de lignes en cours d'édition
-
-    function listenAbonnes() {
-        db.ref('mira_voice/abonnes').on('value', snap => {
-            abonnesData = snap.exists() ? snap.val() : {};
-            renderTable();
-            const now = new Date().toLocaleTimeString('fr-FR');
-            document.getElementById('last-update').textContent = `Dernière synchronisation : ${now}`;
-        });
-    }
-
-    function renderTable() {
-        const tbody = document.getElementById('abonnes-body');
-        const table = document.getElementById('abonnes-table');
-        document.getElementById('table-loading').style.display = 'none';
-        table.style.display = 'table';
-
-        const keys = Object.keys(abonnesData);
-
-        if (keys.length === 0) {
-            tbody.innerHTML = '<tr class="empty-row"><td colspan="9">Aucun abonné enregistré — cliquez sur "Nouvel abonné" pour commencer</td></tr>';
-            return;
-        }
-
-        // Conserver les lignes en cours d'édition non re-rendues
-        const newRows = keys.map(k => buildRow(k, abonnesData[k]));
-        tbody.innerHTML = newRows.join('');
-    }
-
-    function buildRow(key, d) {
-        const numAff = afficherNumero(key);
-        return `
-        <tr id="row-${key}" data-key="${key}">
-            <td><button class="del-btn" onclick="deleteAbonne('${key}')" title="Supprimer">✕</button></td>
-            <td><span class="num-display">${numAff}</span></td>
-            <td><input class="cell-edit" data-field="nom" value="${esc(d.nom||'')}" placeholder="Nom" oninput="markModified(this,'${key}')" onblur="autoSave('${key}')"></td>
-            <td><input class="cell-edit" data-field="fbx_id" value="${esc(d.fbx_id||'')}" placeholder="fbxXXXXXX" oninput="markModified(this,'${key}')" onblur="autoSave('${key}')"></td>
-            <td><input class="cell-edit" data-field="hotline_id" value="${esc(d.hotline_id||'')}" placeholder="XXXXXXXX" oninput="markModified(this,'${key}')" onblur="autoSave('${key}')"></td>
-            <td><input class="cell-edit" data-field="hotline_code" value="${esc(d.hotline_code||'')}" placeholder="XXXX" oninput="markModified(this,'${key}')" onblur="autoSave('${key}')"></td>
-            <td><input class="cell-edit" data-field="wifi_ssid" value="${esc(d.wifi_ssid||'')}" placeholder="Freebox-XXX" oninput="markModified(this,'${key}')" onblur="autoSave('${key}')"></td>
-            <td><input class="cell-edit" data-field="wifi_key" value="${esc(d.wifi_key||'')}" placeholder="clé wifi" oninput="markModified(this,'${key}')" onblur="autoSave('${key}')"></td>
-            <td><button class="save-row-btn" id="savebtn-${key}" onclick="saveRow('${key}')" style="display:none">Enregistrer</button></td>
-        </tr>`;
-    }
-
-    function esc(str) {
-        return String(str).replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    function markModified(input, key) {
-        input.classList.add('modified');
-        const btn = document.getElementById('savebtn-' + key);
-        if (btn) btn.style.display = 'inline-block';
-        editingRows.add(key);
-    }
-
-    // Auto-save on blur (si modifié)
-    function autoSave(key) {
-        if (!editingRows.has(key)) return;
-        // Petit délai pour laisser le focus changer entre cellules
-        setTimeout(() => {
-            const row = document.getElementById('row-' + key);
-            if (!row) return;
-            // Si le focus est encore dans cette ligne, ne pas sauver
-            if (row.contains(document.activeElement)) return;
-            saveRow(key);
-        }, 200);
-    }
-
-    async function saveRow(key) {
-        const row = document.getElementById('row-' + key);
+function autoSave(key) {
+    if (!editingRows[key]) return;
+    setTimeout(function() {
+        var row = document.getElementById('row-' + key);
         if (!row) return;
-        const inputs = row.querySelectorAll('.cell-edit');
-        const data = {};
-        inputs.forEach(inp => { data[inp.dataset.field] = inp.value.trim(); });
+        if (row.contains(document.activeElement)) return;
+        saveRow(key);
+    }, 200);
+}
 
-        // Conserver les métadonnées existantes
-        const existing = abonnesData[key] || {};
-        const updated = {
-            ...existing,
-            ...data,
-            updated_at: new Date().toISOString()
-        };
-
-        try {
-            await db.ref('mira_voice/abonnes/' + key).set(updated);
-            inputs.forEach(inp => inp.classList.remove('modified'));
-            const btn = document.getElementById('savebtn-' + key);
-            if (btn) { btn.textContent = '✓ Sauvegardé'; btn.classList.add('saved'); setTimeout(() => { btn.textContent = 'Enregistrer'; btn.classList.remove('saved'); btn.style.display = 'none'; }, 2000); }
-            editingRows.delete(key);
-            toast('✅ ' + (data.nom || key) + ' mis à jour', 'ok');
-        } catch (e) {
-            toast('❌ Erreur : ' + e.message, 'err');
+function saveRow(key) {
+    var row = document.getElementById('row-' + key);
+    if (!row) return;
+    var inputs = row.querySelectorAll('.cell-edit');
+    var data = {};
+    inputs.forEach(function(inp) { data[inp.dataset.field] = inp.value.trim(); });
+    var existing = abonnesData[key] || {};
+    var updated = Object.assign({}, existing, data, { updated_at: new Date().toISOString() });
+    db.ref('mira_voice/abonnes/' + key).set(updated).then(function() {
+        inputs.forEach(function(inp) { inp.classList.remove('modified'); });
+        var btn = document.getElementById('savebtn-' + key);
+        if (btn) {
+            btn.textContent = '✓ Sauvegardé';
+            btn.classList.add('saved');
+            setTimeout(function() { btn.textContent = 'Enregistrer'; btn.classList.remove('saved'); btn.style.display = 'none'; }, 2000);
         }
+        delete editingRows[key];
+        toast('✅ ' + (data.nom || afficherNumero(key)) + ' mis à jour', 'ok');
+    }).catch(function(e) { toast('❌ ' + e.message, 'err'); });
+}
+
+function deleteAbonne(key) {
+    var nom = (abonnesData[key] && abonnesData[key].nom) ? abonnesData[key].nom : afficherNumero(key);
+    if (!confirm('Supprimer l\'abonné "' + nom + '" ?\nCette action est irréversible.')) return;
+    db.ref('mira_voice/abonnes/' + key).remove()
+        .then(function() { toast('🗑️ Abonné supprimé', ''); })
+        .catch(function(e) { toast('❌ ' + e.message, 'err'); });
+}
+
+// ═══════════════════════════════════════════════
+// ÉCOUTE FIREBASE
+// ═══════════════════════════════════════════════
+function listenAbonnes() {
+    db.ref('mira_voice/abonnes').on('value', function(snap) {
+        abonnesData = snap.exists() ? snap.val() : {};
+        renderTable();
+        document.getElementById('last-update').textContent = 'Dernière sync : ' + new Date().toLocaleTimeString('fr-FR');
+    });
+}
+
+function esc(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderTable() {
+    var tbody = document.getElementById('abonnes-body');
+    var table = document.getElementById('abonnes-table');
+    document.getElementById('table-loading').style.display = 'none';
+    table.style.display = 'table';
+    var keys = Object.keys(abonnesData);
+    if (keys.length === 0) {
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="9">Aucun abonné — cliquez sur "Nouvel abonné"</td></tr>';
+        return;
     }
+    tbody.innerHTML = keys.map(function(k) { return buildRow(k, abonnesData[k]); }).join('');
+}
 
-    // ── Nouvel abonné ──
-    function addRow() {
-        const numero = prompt('Numéro de téléphone du nouvel abonné :\n(Ex: 0612345678)');
-        if (!numero) return;
-        const key = normaliserNumero(numero);
-        if (!key.match(/^[0-9]{11,14}$/)) {
-            alert('Numéro invalide. Format attendu : 0612345678 ou +33612345678');
-            return;
-        }
-        if (abonnesData[key]) {
-            toast('⚠️ Ce numéro existe déjà', 'err');
-            // Scroll vers la ligne existante
-            const row = document.getElementById('row-' + key);
-            if (row) row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            return;
-        }
+function buildRow(key, d) {
+    return '<tr id="row-' + key + '" data-key="' + key + '">' +
+        '<td><button class="del-btn" onclick="deleteAbonne(\'' + key + '\')" title="Supprimer">✕</button></td>' +
+        '<td><span class="num-display">' + afficherNumero(key) + '</span></td>' +
+        '<td><input class="cell-edit" data-field="nom" value="' + esc(d.nom) + '" placeholder="Nom" oninput="markModified(this,\'' + key + '\')" onblur="autoSave(\'' + key + '\')"></td>' +
+        '<td><input class="cell-edit" data-field="fbx_id" value="' + esc(d.fbx_id) + '" placeholder="fbxXXXXXX" oninput="markModified(this,\'' + key + '\')" onblur="autoSave(\'' + key + '\')"></td>' +
+        '<td><input class="cell-edit" data-field="hotline_id" value="' + esc(d.hotline_id) + '" placeholder="XXXXXXXX" oninput="markModified(this,\'' + key + '\')" onblur="autoSave(\'' + key + '\')"></td>' +
+        '<td><input class="cell-edit" data-field="hotline_code" value="' + esc(d.hotline_code) + '" placeholder="XXXX" oninput="markModified(this,\'' + key + '\')" onblur="autoSave(\'' + key + '\')"></td>' +
+        '<td><input class="cell-edit" data-field="wifi_ssid" value="' + esc(d.wifi_ssid) + '" placeholder="Freebox-XXX" oninput="markModified(this,\'' + key + '\')" onblur="autoSave(\'' + key + '\')"></td>' +
+        '<td><input class="cell-edit" data-field="wifi_key" value="' + esc(d.wifi_key) + '" placeholder="clé wifi" oninput="markModified(this,\'' + key + '\')" onblur="autoSave(\'' + key + '\')"></td>' +
+        '<td><button class="save-row-btn" id="savebtn-' + key + '" onclick="saveRow(\'' + key + '\')" style="display:none">Enregistrer</button></td>' +
+        '</tr>';
+}
 
-        // Créer entrée vide
-        db.ref('mira_voice/abonnes/' + key).set({
-            nom: '', fbx_id: '', hotline_id: '', hotline_code: '',
-            wifi_ssid: '', wifi_key: '',
-            added_at: new Date().toISOString()
-        }).then(() => {
-            toast('✅ Abonné ajouté — remplissez les champs', 'ok');
-            setTimeout(() => {
-                const row = document.getElementById('row-' + key);
-                if (row) {
-                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    row.classList.add('new-row');
-                    row.querySelector('.cell-edit[data-field="nom"]')?.focus();
-                }
-            }, 300);
-        }).catch(e => toast('❌ ' + e.message, 'err'));
+function addRow() {
+    var numero = prompt('Numéro de téléphone :\n(Ex: 0612345678)');
+    if (!numero) return;
+    var key = normaliserNumero(numero);
+    if (!/^[0-9]{11,14}$/.test(key)) { alert('Numéro invalide.'); return; }
+    if (abonnesData[key]) {
+        toast('⚠️ Ce numéro existe déjà', 'err');
+        var row = document.getElementById('row-' + key);
+        if (row) row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
     }
+    db.ref('mira_voice/abonnes/' + key).set({
+        nom: '', fbx_id: '', hotline_id: '', hotline_code: '', wifi_ssid: '', wifi_key: '',
+        added_at: new Date().toISOString()
+    }).then(function() {
+        toast('✅ Abonné ajouté — remplissez les champs', 'ok');
+        setTimeout(function() {
+            var row = document.getElementById('row-' + key);
+            if (row) {
+                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                row.classList.add('new-row');
+                var first = row.querySelector('.cell-edit[data-field="nom"]');
+                if (first) first.focus();
+            }
+        }, 300);
+    }).catch(function(e) { toast('❌ ' + e.message, 'err'); });
+}
 
-    async function deleteAbonne(key) {
-        const nom = abonnesData[key]?.nom || afficherNumero(key);
-        if (!confirm(`Supprimer l'abonné "${nom}" ?\nCette action est irréversible.`)) return;
-        try {
-            await db.ref('mira_voice/abonnes/' + key).remove();
-            toast('🗑️ Abonné supprimé', '');
-        } catch (e) {
-            toast('❌ Erreur : ' + e.message, 'err');
-        }
-    }
-
-}); // end window.onload
 </script>
 </body>
 </html>
