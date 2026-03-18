@@ -124,6 +124,23 @@
             <tbody id="abonnes-body"></tbody>
         </table>
     </div>
+    <div class="tts-card" style="margin-top:24px;background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <h2 style="font-size:15px;font-weight:700;margin-bottom:4px;">Moteur TTS — Mira Voice</h2>
+        <p style="font-size:13px;color:#888;margin-bottom:20px;">Choisissez le moteur de synthèse vocale actif pour les appels téléphoniques.</p>
+        <div style="display:flex;gap:12px;margin-bottom:16px;">
+            <label id="lbl-edge" style="flex:1;border:2px solid #E0E0E0;border-radius:10px;padding:16px;cursor:pointer;transition:border-color 0.2s;">
+                <input type="radio" name="tts" value="edge" style="display:none" onchange="saveTTS(this.value)">
+                <div style="font-weight:700;font-size:14px;">🟢 Edge TTS</div>
+                <div style="font-size:12px;color:#888;margin-top:4px;">Gratuit — Microsoft Neural</div>
+            </label>
+            <label id="lbl-elevenlabs" style="flex:1;border:2px solid #E0E0E0;border-radius:10px;padding:16px;cursor:pointer;transition:border-color 0.2s;">
+                <input type="radio" name="tts" value="elevenlabs" style="display:none" onchange="saveTTS(this.value)">
+                <div style="font-weight:700;font-size:14px;">🟠 ElevenLabs</div>
+                <div style="font-size:12px;color:#888;margin-top:4px;">Premium — Voix Manon</div>
+            </label>
+        </div>
+        <div id="tts-status" style="font-size:13px;color:#888;"></div>
+    </div>
     <div id="last-update" class="last-update"></div>
 </div>
 
@@ -198,7 +215,29 @@ if (sessionStorage.getItem('mira_admin')) {
 // ═══════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════
+
+function saveTTS(val) {
+    db.ref('mira_config/tts/provider').set(val).then(function() {
+        document.getElementById('tts-status').textContent = val === 'edge' ? 'Edge TTS actif' : 'ElevenLabs actif';
+        updateTTSUI(val);
+    }).catch(function(e) { document.getElementById('tts-status').textContent = 'Erreur : ' + e.message; });
+}
+
+function updateTTSUI(val) {
+    document.getElementById('lbl-edge').style.borderColor = val === 'edge' ? '#E4032E' : '#E0E0E0';
+    document.getElementById('lbl-elevenlabs').style.borderColor = val === 'elevenlabs' ? '#E4032E' : '#E0E0E0';
+    document.querySelectorAll('input[name=tts]').forEach(function(r) { r.checked = r.value === val; });
+}
+
+function loadTTS() {
+    db.ref('mira_config/tts/provider').once('value').then(function(snap) {
+        updateTTSUI(snap.val() || 'edge');
+    });
+}
+
 function initApp() {
+    loadTTS();
+
     listenAbonnes();
 }
 
